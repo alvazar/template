@@ -1,5 +1,5 @@
 <?php
-namespace minikit;
+namespace alvazar;
 
 class Template {
 	public function __construct() {
@@ -70,4 +70,3 @@ class Template {
 		return preg_replace($regexp,"",$content);
 	}
 }
-?>
