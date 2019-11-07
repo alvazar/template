@@ -54,6 +54,11 @@ class Template {
 				}
 				// replace mask on value
 				else {
+					$flag = "";
+					if (strpos($key,":") !== false) {
+						list($key,$flag) = explode(":",$key,1);
+					}
+					$value = $this->prepareValue($value,$flag);
 					$blockMaked = str_replace('<!-- v['.$key.'] -->',$value,$blockMaked);
 				}
 			}
@@ -68,5 +73,12 @@ class Template {
 	public function skipTemplateTags($content) {
 		$regexp = "/\<\!\-\-(\s?\}|)\s?[bv]\[[^\]]+\]\s?(\{\s?|)\-\-\>/us";
 		return preg_replace($regexp,"",$content);
+	}
+
+	public function prepareValue($value,$flag) {
+		if ($flag !== "raw") {
+			$value = htmlspecialchars($value);
+		}
+		return $value;
 	}
 }
