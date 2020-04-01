@@ -6,7 +6,7 @@ class Template
 
     getBlockTemplate(name, template)
     {
-        const regexp = '<!--\\sb\\[' + name + '\\]\\s\\{\\s-->.+<!--\\s\\}\\sb\\[' + name + '\\]\\s-->';
+        const regexp = '<!--\\sb\\[' + name + '\\]\\s\\{\\s-->.+?<!--\\s\\}\\sb\\[' + name + '\\]\\s-->';
         let match = template.match(new RegExp(regexp, 'gms'));
         return match !== null ? match[0] : "";
     }
@@ -59,7 +59,7 @@ class Template
                 let value = data[key];
                 // prepare sub block
                 if (typeof(value) == "object" || value === false) {
-                    blockMaked = this._blockReplace(key, value, blockMaked);
+                    blockMaked = this.blockReplace(key, value, blockMaked);
                 } else { // replace mask on value
                     blockMaked = this.replaceAll('<!-- v[' + key + '] -->', value, blockMaked);
                 }
@@ -74,7 +74,7 @@ class Template
 
     skipTemplateTags(content)
     {
-        const regexp = /<!--(\s\}|)\s[bv]\[[^\]]+\]\s(\{\s|)-->/;
+        const regexp = /<!--(\s\}|)\s[bv]\[.+?\]\s(\{\s|)-->/;
         return content.replace(new RegExp(regexp, "gms"), "");
     }
 
