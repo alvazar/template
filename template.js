@@ -39,7 +39,7 @@ class Template
         let blockMaked = blockTemplate;
         
         // remove block
-        if (data === false) {
+        if (data === null) {
             return template.replace(blockMaked, "");
         }
         
@@ -58,7 +58,7 @@ class Template
             for (let key in data) {
                 let value = data[key];
                 // prepare sub block
-                if (typeof(value) == "object" || value === false) {
+                if (typeof(value) == "object" || value === null) {
                     blockMaked = this.blockReplace(key, value, blockMaked);
                 } else { // replace mask on value
                     blockMaked = this.replaceAll('<!-- v[' + key + '] -->', value, blockMaked);
