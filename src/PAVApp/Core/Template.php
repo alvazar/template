@@ -83,7 +83,7 @@ class Template
     public function prepareValue(string $value, string $flag): string
     {
         if ($flag !== "raw") {
-            $value = htmlspecialchars($value);
+            //$value = htmlspecialchars($value);
         }
         return $value;
     }
