@@ -11,12 +11,14 @@ class Template
     {
         $regexp = "/(\<\!\-\-\s(b\[{$name}\])\s\{\s\-\-\>.+?\<\!\-\-\s\}\s\g{2}\s\-\-\>)/us";
         preg_match_all($regexp, $template, $match);
+
         return !empty($match[1][0]) ? $match[1][0] : "";
     }
     
     public function make(string $path, array $data, string $onlyBlock = ""): string
     {
         $template = file_get_contents($path);
+
         return $this->makeTemplate($template, $data, $onlyBlock);
     }
 
@@ -25,9 +27,11 @@ class Template
         if ($onlyBlock !== "") {
             $template = $this->getBlockTemplate($onlyBlock, $template);
         }
+
         foreach ($data as $name => $value) {
             $template = $this->blockReplace($name, $value, $template);
         }
+
         return $template;
     }
     
@@ -46,13 +50,16 @@ class Template
         // prepare
         if ($isMultiple) {
             $blockMaked = "";
+
             foreach ($data as $value) {
                 if (is_array($value)) {
                     $blockMaked .= $this->blockReplace($name, $value, $blockTemplate);
                 }
             }
         } else {
+
             foreach ($data as $key => $value) {
+
                 if (is_array($value) || $value === null) {
                     // prepare sub block
                     $blockMaked = $this->blockReplace($key, $value, $blockMaked);
@@ -77,6 +84,7 @@ class Template
     public function skipTemplateTags(string $content): string
     {
         $regexp = "/\<\!\-\-(\s\}|)\s[bv]\[.+?\]\s(\{\s|)\-\-\>/us";
+
         return preg_replace($regexp, "", $content);
     }
 
@@ -85,6 +93,7 @@ class Template
         if ($flag !== "raw") {
             //$value = htmlspecialchars($value);
         }
+
         return $value;
     }
 }
